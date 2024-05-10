@@ -1,20 +1,11 @@
-/**
- * Complete project details at https://RandomNerdTutorials.com/arduino-load-cell-hx711/
- *
- * HX711 library for Arduino - example file
- * https://github.com/bogde/HX711
- *
- * MIT License
- * (c) 2018 Bogdan Necula
- *
-**/
 
-#include <Arduino.h>
+
 #include "HX711.h"
+#include "LiquidCrystal_I2C.h"
 
 // HX711 circuit wiring
-const int LOADCELL_DOUT_PIN = 18;
-const int LOADCELL_SCK_PIN = 5;
+const int LOADCELL_DOUT_PIN = 5;
+const int LOADCELL_SCK_PIN = 18;
 
 HX711 scale;
 
@@ -39,7 +30,8 @@ void setup() {
   Serial.println(scale.get_units(5), 1);  // print the average of 5 readings from the ADC minus tare weight (not set) divided
             // by the SCALE parameter (not set yet)
             
-  scale.set_scale(43.94);
+  scale.set_scale(76.93);
+  //scale.set_scale(-471.497);                      // this value is obtained by calibrating the scale with known weights; see the README for details
   scale.tare();               // reset the scale to 0
 
   Serial.println("After setting up the scale:");
@@ -54,7 +46,7 @@ void setup() {
   Serial.println(scale.get_value(5));   // print the average of 5 readings from the ADC minus the tare weight, set with tare()
 
   Serial.print("get units: \t\t");
-  Serial.println(scale.get_units(5), 1);        // print the average of 5 readings from the ADC minus tare weight, divided
+  Serial.println(scale.get_units(5), 1);        // print the average of 5 readings from the                            minus tare weight, divided
             // by the SCALE parameter set with set_scale
 
   Serial.println("Readings:");
