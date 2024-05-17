@@ -14,7 +14,7 @@ const int LOADCELL_DOUT_PIN = 18;
 const int LOADCELL_SCK_PIN = 5;
 
 const char *ssid = "iPhone de Andressa";
-const char *password = "dessalinda7";
+const char *password = "";
 
 float PESO_MAXIMO = 5000;
 float PESO_ATUAL = 0.0;
