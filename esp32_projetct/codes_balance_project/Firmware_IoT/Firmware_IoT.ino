@@ -20,6 +20,8 @@ float PESO_MAXIMO = 5000;
 float PESO_ATUAL = 0.0;
 float PORCENTAGEM_USADA = 0.0;
 float PORCENTAGEM_MAXIMA = 0.0;
+bool balancaFuncionando = false;
+
 
 char serverAddress[] = "https://api.tago.io/data"; 
 char contentHeader[] = "application/json";                   
@@ -62,15 +64,20 @@ void setup()
 //LOOP ------------------------------------------------------------------------------------------------------------------------------------------------------
 void loop ()
 {
-  lcd.setCursor(2, 0);
-  lcd.print("Balanca SENAS");
-  lcd.setCursor(0, 1);
-  lcd.print("Peso: ");
-  PESO_ATUAL = lcd.print(escala.get_units(20) * 1000, 1);
-  //PESO_ATUAL = 1000;
+  //Calculo 
+  PESO_ATUAL = escala.get_units(20) * 1000, 1;
   PORCENTAGEM_MAXIMA = 100;
   PORCENTAGEM_USADA = (PESO_ATUAL / PESO_MAXIMO) * 100;
-  lcd.println(" g  ");
+
+  lcd.setCursor(2, 0);
+  lcd.print("Balanca SENAI");
+  lcd.setCursor(0, 1);
+  lcd.print("Peso: ");
+  lcd.print(escala.get_units(20) * 1000, 1);
+  
+  //Serial.println(PESO_ATUAL);
+  Serial.begin(9600);
+  //Serial.print(PORCENTAGEM_USADA);
   delay(1000);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -81,12 +88,15 @@ void loop ()
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 void loop_2 ()
 {
-    //LOOP do núcleo 0
-      //envia_TagoIO (TEMPERATURA, "TEMPERATURA", "°C");    // Envia variável TEMPERATURA para o TagoIO (VARIAVEL, GRANDEZA, UNIDADE)
-      envia_TagoIO (PESO_ATUAL, "PESO", "g");             // Envia variável UMIDADE para o TagoIO (VARIAVEL, GRANDEZA, UNIDADE)
-      envia_TagoIO (PORCENTAGEM_MAXIMA, "MAXIMA", "%");           // Envia variável CORRENTE para o TagoIO (VARIAVEL, GRANDEZA, UNIDADE)
-      envia_TagoIO (PORCENTAGEM_USADA, "PORCENTAGEM", "%");               // Envia variável TENSAO para o TagoIO (VARIAVEL, GRANDEZA, UNIDADE)
 
+
+    //LOOP do núcleo 0
+      // Envia variável TEMPERATURA para o TagoIO (VARIAVEL, GRANDEZA, UNIDADE)
+      envia_TagoIO (PESO_ATUAL, "PESO", "g");
+      envia_TagoIO (PORCENTAGEM_MAXIMA, "MAXIMA", "%");
+      envia_TagoIO (PORCENTAGEM_USADA, "PORCENTAGEM", "%");
+
+      Serial.begin(9600);
       delay(3000);   // Aguarda até o próximo envio 
       digitalWrite(LED_ESP32, LOW);
       delay(1000);
